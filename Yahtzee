@@ -1,0 +1,552 @@
+#this is the code of a yahtzee project one of my friends has to do for school, I have no idea how to code in python, and especially in this case, because it is UI stuff of something (correct me if I'm wrong)
+#now, the problem here is, you need to be able to "lock" the dice if you want to before throwing the dice (grey button), my idea was to have a button over every dice (green if dice will be thrown, red if you locked it)
+#or make the dice clickable objetcs and make them red if they are locked, I know how to do it logically, but I have no coding experience with python whatsoever, so any help is apprecieated, thanks in advance
+#the comments are in german, I can translate them if nessecary, just ask.
+
+
+
+
+from gturtle import *                                       #Turtle wird importiert 
+
+import random                                               #Random Funktion wird importiert (um zufällige Würfelaugen zu machen) 
+
+setPlaygroundSize(1500,700)                                 #Turtle Fenster wird grösser gemacht (x=1500, y=700) 
+
+makeTurtle()                                                #Turtle Fenster öffnet sich 
+
+ht()                                                        #Hide Turtle, damit man nicht zusehen muss, wie die Turtle alles zeichnet. Zeigt sofort Endresultat. 
+
+ 
+
+def begruessung():                                          #Begrüssungsfenster 
+
+    p=input('Hallo, möchtest du Yahtzee spielen? :)')        #Fragt Spieler, ob er spielen will 
+
+    if p == 'nein' :                                        #wenn Spieler 'nein' schreibt... 
+
+        input('Tschüss, bis zum nächsten Mal')              #...kommt neues Fenster mit 'Tschüss, bis zum nächsten Mal' --> Spieler kann irgendetwas schreiben 
+
+    elif p == 'Nein' :                                      #Z. 11&12 sind gleich wie 9&10, einfach für Input 'Nein' (gross geschrieben) 
+
+        input ('Tschüss, bis zum nächsten Mal')              
+
+        begruessung()                                       #Begrüssungsfenster erscheint erneut. Funktion ruft sich selber auf 
+
+         
+
+def eins(x, y):                                             #Würfelaugenzahl 1, it x-,y- Koordinaten, um Würfelaugen in jedem Würfel am gleichen Ort zu machen 
+
+    penUp()                                                 #Stift nach oben, um keine ungewollten Linien zu zeichnen 
+
+    setPenColor('black')                                    #Stiffarbe wird schwarz gemacht 
+
+    moveTo(x+50,y+50)                                       #Geht in Mitte des Feldes 
+
+    setFillColor('lightgreen')                              #Hellgrün wird ausgewählt 
+
+    fill()                                                  #Feld wird hellgrün ausgemalt 
+
+    dot(15)                                                 #Punkt wird gemacht                                              
+
+    penDown()                                               #Stift nach unten, damit nächster Würfel/Feld Stift wieder in Grundeinstellung hat 
+
+ 
+
+def zwei(x, y):                                             #Z. 23-96 wird das Gleiche gemacht wie bei Zeilen 29 bis 43, die Augenzahl und die Farbe ändern sich für jede Definition     
+
+    penUp() 
+
+    setPenColor('black') 
+
+    moveTo(x+25, y+25) 
+
+    setFillColor('lightblue') 
+
+    fill() 
+
+    dot(15) 
+
+    moveTo(x+75, y+75) 
+
+    dot(15) 
+
+    penDown() 
+
+     
+
+def drei(x, y): 
+
+    penUp() 
+
+    moveTo(x+25,y+25) 
+
+    setPenColor('black') 
+
+    setFillColor('lightpink') 
+
+    fill() 
+
+    dot(15) 
+
+    moveTo(x+50,y+50) 
+
+    dot(15) 
+
+    moveTo(x+75,y+75) 
+
+    dot(15) 
+
+    penDown() 
+
+ 
+
+def vier(x, y): 
+
+    penUp() 
+
+    moveTo(x+25, y+ 25) 
+
+    setPenColor('black') 
+
+    setFillColor('orange') 
+
+    fill() 
+
+    dot(15) 
+
+    moveTo(x+ 25, y+ 75) 
+
+    dot(15) 
+
+    moveTo(x+ 75, y+ 75) 
+
+    dot(15) 
+
+    moveTo(x+ 75, y+ 25) 
+
+    dot(15) 
+
+    penDown() 
+
+ 
+
+def fuenf(x,y): 
+
+    penUp() 
+
+    moveTo(x+25,y+25) 
+
+    setPenColor('black') 
+
+    setFillColor('yellow') 
+
+    fill() 
+
+    dot(15) 
+
+    moveTo(x+50,y+50) 
+
+    dot(15) 
+
+    moveTo(x+75,y+75) 
+
+    dot(15) 
+
+    moveTo(x+75,y+25) 
+
+    dot(15) 
+
+    moveTo(x+25,y+75) 
+
+    dot(15) 
+
+    penDown() 
+
+ 
+
+def sechs(x, y): 
+
+    penUp() 
+
+    setPenColor('black') 
+
+    moveTo(x+25, y+25) 
+
+    setFillColor('turquoise') 
+
+    fill() 
+
+    dot(15) 
+
+    moveTo(x+25, y+50) 
+
+    dot(15) 
+
+    moveTo(x+25, y+75) 
+
+    dot(15) 
+
+    moveTo(x+75, y+25) 
+
+    dot(15) 
+
+    moveTo(x+75, y+50) 
+
+    dot(15) 
+
+    moveTo(x+75, y+75) 
+
+    dot(15) 
+
+    penDown()   
+
+ 
+
+l=[]                                                        #Leere Liste wird erstellt                        
+
+l.append (eins)                                             #Z.99-104 Würfelaugen Code für Zahl 1-6 werden in Liste hinzugefügt 
+
+l.append (zwei)                              
+
+l.append (drei) 
+
+l.append (vier) 
+
+l.append (fuenf) 
+
+l.append (sechs) 
+
+print l                                                     #Liste wird gedruckt 
+
+ 
+
+ 
+
+def wuerfel(x, y):                                          #Würfel zeichnen: 
+
+    #if                                                     #Nur bestimmte Würfel neu machen                       
+
+    for i in range(5):                                      #5-Mal wiederholen für 5 Würfel 
+
+        setHeading(0)                                       #Turtle wird nach oben ausgerichtet 
+
+        setPos(x, y)                                        #Turtle wird auf linke untere Ecke vom Würfel gestellt (Koordinaten x,y) 
+
+        setPenColor('black')                                #Stiftfarbe wird schwarz gemacht 
+
+        for i in range(4):                                  #4-Mal wiederholt für 4 Seiten vom Würfel 
+
+            fd(100)                                         #Würfelseite wird 100 lang gemacht 
+
+            rt(90)                                          #Turtle dreht sich 90° nach rechts, um danach weitere Seite des Würfels zu zeichnen 
+
+        random.choice(l)(x,y)                               #Würfelaugenzahl wird zufällig aus der Liste ausgewählt und gezeichnet 
+
+        x += 125                                            #x-Koordinate wird um 125 vergrössert, um Turtle beim nächsten Würfel gegen rechts wieder in die linke untere Ecke zu stellen 
+
+    penUp()                                                 #Stift nach oben, dass Turtle keine ungewollten Linien zeichnet 
+
+ 
+
+def Knopf():                                                #Knopf um zu Würfeln zeichnen:                           
+
+    setPenColor('grey')                                     #Stiftfarbe wird grau gemacht 
+
+    penDown()                                               #Stift nach unten, dass Turtle wieder zeichnet 
+
+    setPos(200,-200)                                        #Turtle wird unter die Würfel gestellt, linke untere Ecke des Rechtecks (Koordinaten 200,-200) 
+
+    setHeading(0)                                           #Turtle wird nach oben ausgerichtet                    
+
+    for i in range (2):                                     #2-Mal wiederholt, um Rechteck zu zeichnen                         
+
+        forward(100)                                        #Turtle geht 100 vorwärts (kurze Seite des Rechtecks) 
+
+        right(90)                                           #Turtle dreht sich 90° nach rechts 
+
+        forward(200)                                        #Turtle geht 200 vorwärts (lange Seite des Rechtecks) 
+
+        right(90)                                           #Turtle dreht sich 90° nach rechts                          
+
+    right(45)                                               #Turtle dreht sich 45° nach rechts 
+
+    forward(30)                                             #Turtle fährt 30 ins Rechteck hinein hinein 
+
+    setFillColor('grey')                                    #Füllfarbe wird grau gemacht 
+
+    fill()                                                  #Feld wird gefüllt 
+
+     
+
+setPos(0,0)                                                 #Turtle wird in linke untere Ecke des ersten Würfels gestellt (Koordinaten 0,0), um später Würfel zu übermalen 
+
+@onMouseHit                                                 #Um mit Maus auf Stelle klicken können 
+
+def hitKnopf(x,y):                                          #Wo man mit Maus klicken kann 
+
+    if((200<=x<=400) and (-200<=y<=-100)):                  #Beschränkung wo man klicken kann, Koordinaten vom Rechteck 
+
+        x=0                                                 #x=0, um beim ersten Würfel in der linken unteren Ecke anzufangen 
+
+        setPos(0,0)                                         #Turtle wird in linke untere Ecke des ersten Würfels gestellt (Koordinaten 0,0) 
+
+        setHeading(0)                                       #Turtle wird nach oben ausgerichtet 
+
+        for i in range(5):                                  #5-Mal wiederholen, für alle 5 Würfel 
+
+            uebermalen(x,0)                                 #Würfel werden übermalt 
+
+            x+=125                                          #x-Koordinate wird um 125 vergrössert, um zum nächsten Würfel gegen rechts in die untere linke Ecke zu gelangen 
+
+            setHeading(0)                                   #Turtle wird nach oben ausgerichtet (um keine Winkelfehler zu machen) 
+
+             
+             
+   
+
+    
+
+
+               
+
+    wuerfel(0,0)                                            #Würfel werden neu gemalt 
+
+     
+
+def uebermalen(x,y):                                        #Würfel weiss übermalen 
+
+    setPenColor('white')                                    #Stiftfarbe wird weiss gemacht 
+
+    penUp()                                                 #Stift nach oben, um keine ungewollten Linien zu zeichnen 
+
+    moveTo(x+5, y+5)                                        #Turtle geht in Würfel, an Ort wo keine Augenzahl ist 
+
+    setFillColor('white')                                   #Füllfarbe wird weiss gemacht 
+
+    fill()                                                  #Würfel wird weiss angemalt 
+
+    moveTo(x+25, y+25)                                      #Z.157-170 Turtle springt zu jedem möglichen Punkt und übermalt ihn mit einem weissen Punkt 
+
+    dot(15)         
+
+    moveTo(x+25, y+50) 
+
+    dot(15) 
+
+    moveTo(x+25, y+75) 
+
+    dot(15) 
+
+    moveTo(x+75, y+25) 
+
+    dot(15) 
+
+    moveTo(x+75, y+50) 
+
+    dot(15) 
+
+    moveTo(x+75, y+75) 
+
+    dot(15) 
+
+    moveTo(x+50, y+50) 
+
+    dot(15) 
+
+     
+
+ 
+
+ 
+
+def tabelle():                                              #Tabelle zeichnen 
+
+    setHeading(0)                                           #Turtle schaut nach Norden (oben) 
+
+    setPos(-600,-200)                                       #Turtle nach links unten 
+
+    setPenColor('black')                                    #Farbe: schwarz 
+
+    setPenWidth(2)                                          #Dicke Stift: 2 (bisschen dicker als normal) 
+
+    for i in range(2):                                      #Rahmen aussen Tabelle gezeichnet 
+
+        fd(400)                                             #Rechteck 200 breit*400 hoch gezeichnet 
+
+        rt(90) 
+
+        fd(200) 
+
+        rt(90) 
+
+         
+
+    setPenWidth(1)                                          #Dicke Stift wieder auf 1 
+
+    setPos(-600,-200)                                       #Turtle an Anfang 
+
+    for j in range(8):                                      #horizontale Linien gezeichnet 
+
+        fd(25) 
+
+        rt(90) 
+
+        fd(200) 
+
+        lt(90) 
+
+        fd(25) 
+
+        lt(90) 
+
+        fd(200) 
+
+        rt(90) 
+
+    setPos(-600,-200)                                       #Turtle an Anfang 
+
+    rt(90)                                                  #Mittellinie gezeichnet 
+
+    fd(100) 
+
+    lt(90) 
+
+    fd(400) 
+
+    rt(90) 
+
+    fd(50) 
+
+    rt(90) 
+
+    fd(400) 
+
+    setPos(-600,-200)                                       #Turtle an Anfang 
+
+    lt(180) 
+
+    setPenWidth(3)                                          #unterstes Feld dick umrandet 
+
+    fd(25) 
+
+    rt(90) 
+
+    fd(200) 
+
+    rt(90) 
+
+    fd(25) 
+
+    rt(90) 
+
+    fd(200) 
+
+    penUp() 
+
+     
+
+    moveTo(-600,0)                                          #Bonusfeld dick umrandet 
+
+    penDown() 
+
+    fd(25) 
+
+    rt(90) 
+
+    fd(200) 
+
+    rt(90) 
+
+    fd(25) 
+
+    rt(90) 
+
+    fd(200) 
+
+                                                            #Beschriftung Auswahloptionen links 
+
+    setPos(-595,-192)                                       #Ort, an dem Text hin soll  
+
+    setFontSize(11)                                         #Grösse Schrift für Beschriftung 
+
+    label("Total Score")                                    #Lable Funktion schreibt Text, hier: Total Score 
+
+    setPos(-595,-167)                                       #gleich wie oben 
+
+    label("Yatzee") 
+
+    setPos(-595,-142) 
+
+    label("Chance") 
+
+    setPos(-595,-117) 
+
+    label("Large Straight") 
+
+    setPos(-595,-92) 
+
+    label("Small Straight") 
+
+    setPos(-595,-67) 
+
+    label("Full House") 
+
+    setPos(-595,-42) 
+
+    label("Four of a kind") 
+
+    setPos(-595,-17) 
+
+    label("Three of a kind") 
+
+    setPos(-595,8) 
+
+    label("Bonus") 
+
+    setPos(-595,33) 
+
+    label("Sixes") 
+
+    setPos(-595,58) 
+
+    label("Fives") 
+
+    setPos(-595,83) 
+
+    label("Fours") 
+
+    setPos(-595,108) 
+
+    label("Threes") 
+
+    setPos(-595,133) 
+
+    label("Twos") 
+
+    setPos(-595,158) 
+
+    label("Ones") 
+
+     
+
+    setPos(-490,183)                                        #obere Beschriftungen, gleich wie oben 
+
+    label("Pl. 1") 
+
+    setPos(-440,183) 
+
+    label("Pl. 2") 
+
+     
+
+    setPenWidth(1)                                          #Stiftdicke wieder 1, damit Würfel nicht dick werden     
+
+ 
+
+begruessung()                                   #Begrüssungsfenster-Funktion wird aufgerufen und ausgeführt 
+
+wuerfel(0,0)                                    #Würfel-Funktion wird aufgerufen und ausgeführt 
+
+Knopf()                                         #Knopf-Funktion wird aufgerufen und ausgeführt 
+
+tabelle()                                       #Tabellen-Funktion wird aufgerufen und ausgeführt
